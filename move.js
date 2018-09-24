@@ -8,4 +8,6 @@ function move(b,d,pos){
   this.execute = function(){
     blocks[this.block].move(this.finalPos)
   }
+
+
 }
