@@ -15,6 +15,8 @@ var won = false
 var states = []
 var moves = []
 var running = true
+var prevStates = []
+var curID = 0
 
 var prevMove = null
 
@@ -28,6 +30,7 @@ function setup(){
     }
   }
 
+  //Loads level fro URL
   params = getURLParams()
   if (params.level) {
     loadLevel(parseInt(params.level))
@@ -35,14 +38,14 @@ function setup(){
     loadLevel(8)
   }
 
-  //noLoop()
-  //frameRate(1)
+  // noLoop()
+  // frameRate(1)
 }
 
 function draw(){
 
+for (var que = 0; que <= 100; que++){
   var index = 0
-  var index2 = 0
   var totalMoves = 0
 
   //console.log(totalMoves)
@@ -51,9 +54,12 @@ function draw(){
   states[states.length - 1].identificate()
   states[states.length - 1].calculate()
 
+  curID = states[states.length - 1].id
+  analyseState()
+
   running = true
   while (running){
-    if (states[states.length - 1].possibleMoves === 0 ){
+    if (states[states.length - 1].possibleMoves <= 0 ){
       states.pop()
       console.log("deleted")
       states[states.length - 1].moves.shift()
@@ -79,8 +85,9 @@ function draw(){
     noLoop()
     console.log("YOU WON")
     solution()
+    break;
   }
-
+}
 }
 
 solution = function(){
@@ -88,6 +95,22 @@ solution = function(){
     console.log(states[i].moves[0])
   }
 }
+
+analyseState = function(){
+
+for(var i = 0; i < prevStates.length; i++){
+    if((JSON.stringify(curID) == JSON.stringify(prevStates[i])) && (states[states.length - 1].moves.length > 0))  {
+      console.log("deleted on loop")
+      states.pop()
+      states[states.length - 1].moves.shift()
+      states[states.length - 1].possibleMoves -= 1
+      blocks = states[states.length - 1].getBlocks(blocks)
+      break
+    }
+  }
+  prevStates.push(states[states.length - 1].id)
+}
+
 loadLevel = function(i){
   switch (i) {
     case 1:
