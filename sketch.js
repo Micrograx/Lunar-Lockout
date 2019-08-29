@@ -39,7 +39,7 @@ function setup(){
   }
 
   if (params.speed) {
-     frameRate(params.speed)
+     frameRate(parseInt(params.speed))
   }
 
   // noLoop()
