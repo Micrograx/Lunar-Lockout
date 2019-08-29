@@ -38,6 +38,10 @@ function setup(){
     loadLevel(8)
   }
 
+  if (params.speed) {
+     frameRate(params.speed)
+  }
+
   // noLoop()
   // frameRate(1)
 }
